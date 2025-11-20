@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>Search Results - Fairy Garden</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Jacquarda+Bastarda+9&family=Metal&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="search.css">
+</head>
+
+<body>
+  <!-- ===== TOP BAR ===== -->
+  <div class="top-bar">
+    Place an order online for Delivery or Pick Up, or contact us at +62 812 3456 7890
+  </div>
+
+  <!-- ===== HEADER (sama kayak di HOME) ===== -->
+  <header>
+    <h1 class="logo">Fairy Garden</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#">Occasions</a>
+          <ul class="dropdown-menu">
+            <li><a href="occasions.html?category=birthday">Birthday</a></li>
+            <li><a href="occasions.html?category=mothersday">Mother’s Day</a></li>
+            <li><a href="occasions.html?category=justbecause">Just Because</a></li>
+            <li><a href="occasions.html?category=anniversary">Anniversary</a></li>
+            <li><a href="occasions.html?category=graduation">Graduation</a></li>
+            <li><a href="occasions.html">Explore All Occasions</a></li>
+          </ul>
+        </li>
+        <li><a href="viewall.html">About Us</a></li>
+      </ul>
+    </nav>
+
+  <div class="header-icons">
+    <a href="#" aria-label="Login"><i class="fa-regular fa-user"></i></a>
+    <a href="cart.html" aria-label="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+  </div>
+</header>
+
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <section class="search-section">
+    <div class="search-bar-container">
+      <input type="text" id="searchInput" placeholder="Search...">
+      <button id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+
+    <h2 id="searchTitle">XX RESULTS FOR...</h2>
+    <div id="searchGrid" class="products-grid"></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p><b>YOU CAN FIND US ON</b></p>
+    <p><i class="fa-brands fa-instagram"></i> @fairygarden &nbsp;&nbsp;
+       <i class="fa-regular fa-envelope"></i> fairygarden@gmail.com</p>
+  </footer>
+
+<div id="auth-container"></div>
+
+<script>
+     // 1. Muat modal-auth.html ke dalam <div> di atas
+     fetch("modal-auth.html")
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById("auth-container");
+        container.innerHTML = html;
+
+        // 2. Eksekusi semua <script> yang ada di dalam file modal-auth.html
+        const scripts = container.querySelectorAll("script");
+        scripts.forEach(oldScript => {
+          const newScript = document.createElement("script");
+          if (oldScript.src) {
+           newScript.src = oldScript.src;
+          } else {
+            newScript.textContent = oldScript.textContent;
+          }
+          document.body.appendChild(newScript); // Menjalankan skrip modal
+        });
+        // ==============================================================
+        // 3. TAMBAHKAN LOGIKA KLIK ICON USER (SETELAH MODAL SIAP)
+        // ==============================================================
+        const userIcon = document.querySelector("header .fa-user")?.parentElement;
+        const loginModal = document.getElementById("loginModal"); // <-- Sekarang pasti ditemukan
+
+        if (userIcon && loginModal) {
+          userIcon.addEventListener("click", function (e) {
+          e.preventDefault();
+          const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+          if (isLoggedIn === "true") {
+            window.location.href = "profile.html";
+          } else {
+            loginModal.classList.add("show"); // <-- Buka modal
+          }
+          });
+        }
+      });
+  </script>
+  <script src="search.js"></script>
+  </body>
+</html>
